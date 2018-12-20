@@ -18,7 +18,11 @@ def handle(msg):
             if msg['text'] == '/start':
                 bot.sendMessage(chat_id, start_msg)
             else:
-                bot.sendMessage(GROUP_ID, '#hashed%d\n\n%s' % (chat_id, msg['text']))  # TODO: hashing chat_id
+                if 'username' in msg['from']:
+                    hashed_id = str(hash('%d%s' % (chat_id, msg['from']['username'])))[::-1]
+                else:
+                    hashed_id = str(hash(str(chat_id)))[::-1]
+                bot.sendMessage(GROUP_ID, '#H%s\n\n%s' % (hashed_id, msg['text']))
                 bot.sendMessage(chat_id, tnx_msg)
 
 
